@@ -10,7 +10,8 @@ import (
 
 func main() {
 	conn := config.InitDB()
-	var input int
+	var input, Login int
+
 	scanner := bufio.NewScanner(os.Stdin)
 	AksesUsers := entity.AksesUsers{DB: conn}
 	AksesBooks := entity.AksesBooks{DB: conn}
@@ -24,24 +25,28 @@ func main() {
 		fmt.Println("99. Exit")
 		fmt.Print("Masukan input: ")
 		fmt.Scanln(&input)
+
 		switch input {
-		//Read Books
 		case 1:
+			//Read Books
 			fmt.Println("Daftar Buku")
 			for _, val := range AksesBooks.GetAllData() {
 				fmt.Println(val)
 			}
-		default:
-			continue
 
 		case 2:
 			//Login
 			var Pass, No_HP string
 			fmt.Print("Masukkan No. HP: ")
 			fmt.Scanln(&No_HP)
+
 			fmt.Print("Masukkan Password: ")
 			fmt.Scanln(&Pass)
-			fmt.Println(AksesUsers.LoginUsers(No_HP))
+
+			if AksesUsers.LoginUsers(No_HP) == Pass {
+				Login++
+				fmt.Println("Login Sukses")
+			}
 
 		case 3:
 			var newuser entity.Users
