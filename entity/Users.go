@@ -29,8 +29,6 @@ func (au *AksesUsers) GetAllData() []Users {
 		log.Fatal(err.Statement.SQL.String())
 		return nil
 
-	} else {
-		fmt.Println("Berhasil register akun")
 	}
 
 	return daftarUsers
@@ -44,29 +42,19 @@ func (au *AksesUsers) TambahUser(newuser Users) Users {
 
 		return Users{}
 	}
-
+	fmt.Println("Berhasil register akun")
 	return newuser
 }
 
-func (au *AksesUsers) LoginUsers(No_HP string) Users {
+func (au *AksesUsers) LoginUsers(No_HP string) string {
 	var daftarUsers = Users{}
-	daftarUsers.No_HP = No_HP
-	err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
-	if err != nil {
-		log.Println(err.Statement.SQL.String())
 
-		return Users{}
-	}
+	err := au.DB.First(&daftarUsers)
 
-	return daftarUsers
-}
-
-func (au *AksesUsers) LoginDataUser(No_HP string, Pass string) Users {
-	var daftarUsers = Users{}
-	err := au.DB.Where("No. HP= ? AND Pass = ?", No_HP, Pass).Find(&daftarUsers)
 	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
-
+		log.Println(err)
+		return "gagal"
 	}
-	return daftarUsers
+
+	return daftarUsers.Pass
 }
