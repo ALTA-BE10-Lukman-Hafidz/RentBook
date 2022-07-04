@@ -49,7 +49,7 @@ func (au *AksesUsers) TambahUser(newuser Users) Users {
 func (au *AksesUsers) LoginUsers(No_HP string) string {
 	var daftarUsers = Users{}
 
-	err := au.DB.First(&daftarUsers)
+	err := au.DB.First(&daftarUsers, "No_HP = ?", No_HP)
 
 	if err.Error != nil {
 		log.Println(err)
