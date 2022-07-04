@@ -60,3 +60,13 @@ func (au *AksesUsers) LoginUsers(No_HP string) Users {
 
 	return daftarUsers
 }
+
+func (au *AksesUsers) LoginDataUser(No_HP string, Pass string) Users {
+	var daftarUsers = Users{}
+	err := au.DB.Where("No. HP= ? AND Pass = ?", No_HP, Pass).Find(&daftarUsers)
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+
+	}
+	return daftarUsers
+}
