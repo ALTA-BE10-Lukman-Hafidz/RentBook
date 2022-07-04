@@ -12,7 +12,6 @@ type Books struct {
 	Title_Book string
 	Status     bool
 	Posted_at  string
-	Rents      []Rents
 }
 
 type AksesBooks struct {
@@ -23,8 +22,10 @@ func (ab *AksesBooks) GetAllData() []Books {
 	var daftarBooks = []Books{}
 	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
 	err := ab.DB.Find(&daftarBooks)
+
 	if err.Error != nil {
 		log.Fatal(err.Statement.SQL.String())
+
 		return nil
 	}
 
