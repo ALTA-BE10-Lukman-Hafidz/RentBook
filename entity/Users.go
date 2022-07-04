@@ -47,3 +47,26 @@ func (au *AksesUsers) TambahUser(newuser Users) Users {
 
 	return newuser
 }
+
+func (au *AksesUsers) LoginUsers(No_HP string) Users {
+	var daftarUsers = Users{}
+	daftarUsers.No_HP = No_HP
+	err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
+	if err != nil {
+		log.Println(err.Statement.SQL.String())
+
+		return Users{}
+	}
+
+	return daftarUsers
+}
+
+func (au *AksesUsers) LoginDataUser(No_HP string, Pass string) Users {
+	var daftarUsers = Users{}
+	err := au.DB.Where("No. HP= ? AND Pass = ?", No_HP, Pass).Find(&daftarUsers)
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+
+	}
+	return daftarUsers
+}

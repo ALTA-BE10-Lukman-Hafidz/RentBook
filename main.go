@@ -13,8 +13,8 @@ func main() {
 	var input int
 	scanner := bufio.NewScanner(os.Stdin)
 	AksesUsers := entity.AksesUsers{DB: conn}
-	// AksesBooks := entity.AksesBooks{DB: conn}
-	// AksesRents := entity.AksesRents{DB: conn}
+	AksesBooks := entity.AksesBooks{DB: conn}
+	//AksesRents := entity.AksesRents{DB: conn}
 
 	for input != 99 {
 		fmt.Println("=====Perpus Online=====")
@@ -24,14 +24,24 @@ func main() {
 		fmt.Println("99. Exit")
 		fmt.Print("Masukan input: ")
 		fmt.Scanln(&input)
-
 		switch input {
+		//Read Books
 		case 1:
-			//Read Books
-			//fitur
+			fmt.Println("Daftar Buku")
+			for _, val := range AksesBooks.GetAllData() {
+				fmt.Println(val)
+			}
+		default:
+			continue
 
 		case 2:
 			//Login
+			var Pass, No_HP string
+			fmt.Print("Masukkan No. HP: ")
+			fmt.Scanln(&No_HP)
+			fmt.Print("Masukkan Password: ")
+			fmt.Scanln(&Pass)
+			fmt.Println(AksesUsers.LoginUsers(No_HP))
 
 		case 3:
 			var newuser entity.Users
@@ -56,4 +66,5 @@ func main() {
 			fmt.Println("Terima kasih telah menggunakan program kami")
 		}
 	}
+
 }
