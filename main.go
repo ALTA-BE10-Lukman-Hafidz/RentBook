@@ -24,8 +24,9 @@ func main() {
 		switch input {
 		case 1:
 			//Read Books
+			//fitur
 		case 2:
-			//Login
+			//Logindiwaidwadhjasbdjwbdbabuibiudbusabu
 		case 3:
 			//Register
 		case 0:
