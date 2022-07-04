@@ -9,9 +9,9 @@ import (
 type Rents struct {
 	ID_Rent   int `gorm:"primaryKey;"`
 	ID_Renter int `gorm:"foreignKey:ID_User"`
-	ID_Book   int `gorm:"foreignKey:ID_Book"`
 	Rented_at string
 	Return_at string
+	Books     []Books `gorm:"foreignKey:ID_Book"`
 }
 
 type AksesRents struct {
@@ -22,8 +22,10 @@ func (ar *AksesRents) GetAllData() []Rents {
 	var daftarRents = []Rents{}
 	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
 	err := ar.DB.Find(&daftarRents)
+
 	if err.Error != nil {
 		log.Fatal(err.Statement.SQL.String())
+
 		return nil
 	}
 
