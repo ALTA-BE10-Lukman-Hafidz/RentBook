@@ -21,7 +21,21 @@ func UpdateBook() {
 
 }
 
-func DeleteBook() {
+func DeleteBook(AksesBooks entity.AksesBooks) bool {
+	var ID_Book int
+
+	// fmt.Print("Masukkan ID Owner yang akan dihapus: ")
+	// fmt.Scanln(&ID_Owner)
+	fmt.Print("Masukkan ID Buku yang akan dihapus: ")
+	fmt.Scanln(&ID_Book)
+
+	if AksesBooks.HapusBuku(ID_Book) {
+		fmt.Println("Buku berhasil dihapus")
+		return true
+	} else {
+		fmt.Println("Gagal menghapus buku")
+		return false
+	}
 
 }
 
@@ -78,12 +92,13 @@ func main() {
 			if Login == 0 {
 				fmt.Println("Silahkan Login terlebih dulu")
 			} else if Login == 1 {
-				DeleteBook()
+				// Delete Books
+				DeleteBook(AksesBooks)
 			}
 
 		case 5:
 			if Login == 1 {
-				DeleteBook()
+				// views.
 			}
 
 		case 99:

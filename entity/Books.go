@@ -2,16 +2,9 @@ package entity
 
 import (
 	"log"
-	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
-
-type Setting struct {
-	DBUser     string
-	DBPassword string
-}
 
 type Books struct {
 	ID_Book    int `gorm:"primaryKey;"`
@@ -23,17 +16,6 @@ type Books struct {
 
 type AksesBooks struct {
 	DB *gorm.DB
-}
-
-func ReadFromEnv() Setting {
-	res := Setting{}
-	err := godotenv.Load("local.env")
-	if err != nil {
-		return Setting{}
-	}
-	res.DBPassword = os.Getenv("DBPass")
-	res.DBUser = os.Getenv("DBUser")
-	return res
 }
 
 func (ab *AksesBooks) GetAllData() []Books {
@@ -48,4 +30,15 @@ func (ab *AksesBooks) GetAllData() []Books {
 	}
 
 	return daftarBooks
+}
+
+func (as *AksesBooks) HapusBuku(ID_Books int) bool {
+	postExc := as.DB.Delete(&Books{}, ID_Books)
+
+	if err := postExc.Error; err != nil {
+		log.Fatal(err)
+		return false
+	}
+
+	return true
 }
