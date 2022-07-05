@@ -2,6 +2,7 @@ package entity
 
 import (
 	"log"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -11,7 +12,7 @@ type Books struct {
 	ID_Owner   int `gorm:"foreignKey:ID_User"`
 	Title_Book string
 	Status     bool
-	Posted_at  string
+	Posted_at  time.Time `gorm:"autoCreateTime"`
 }
 
 type AksesBooks struct {
@@ -32,8 +33,8 @@ func (ab *AksesBooks) GetAllData() []Books {
 	return daftarBooks
 }
 
-func (as *AksesBooks) HapusBuku(ID_Books int) bool {
-	postExc := as.DB.Delete(&Books{}, ID_Books)
+func (ab *AksesBooks) HapusBuku(ID_Books int) bool {
+	postExc := ab.DB.Delete(&Books{}, ID_Books)
 
 	if err := postExc.Error; err != nil {
 		log.Fatal(err)
@@ -41,4 +42,15 @@ func (as *AksesBooks) HapusBuku(ID_Books int) bool {
 	}
 
 	return true
+}
+
+func (ab *AksesBooks) TambahBuku(newBook Books) Books {
+	err := ab.DB.Create(&newBook).Error
+
+	if err != nil {
+		log.Fatal(err)
+		return Books{}
+	}
+
+	return newBook
 }
