@@ -60,12 +60,16 @@ func (au *AksesUsers) TambahUser(newuser Users) Users {
 }
 
 func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) Users {
-	err := au.DB.Find(&newprofile, "ID_User = ?", ID_User).Save(newprofile)
+	// var datauser = Users{}
+
+	err := au.DB.Model(&Users{}).Where("ID_User = ?", ID_User).Updates(&newprofile)
 
 	if err.Error != nil {
 		log.Println(err)
 		return Users{}
 	}
+
+	fmt.Println("Data Telah Diupdate")
 
 	return newprofile
 }

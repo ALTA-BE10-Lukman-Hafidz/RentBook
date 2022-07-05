@@ -47,3 +47,25 @@ func Register(AksesUsers entity.AksesUsers) {
 	// fmt.Println(newuser.Name)
 	AksesUsers.TambahUser(newuser)
 }
+
+func UpdateProfile(AksesUsers entity.AksesUsers, ID_User int) {
+	var newprofile entity.Users
+	scanner := bufio.NewScanner(os.Stdin)
+
+	newprofile.ID_User = ID_User
+
+	fmt.Print("Masukan Nama: ")
+	scanner.Scan()
+	newprofile.Name = scanner.Text()
+
+	fmt.Print("Masukan No_HP: ")
+	fmt.Scanln(&newprofile.No_HP)
+
+	fmt.Print("Masukan Pass: ")
+	fmt.Scanln(&newprofile.Pass)
+
+	fmt.Print("Masukan Email: ")
+	fmt.Scanln(&newprofile.Email)
+
+	AksesUsers.UpdateUser(newprofile, ID_User)
+}
