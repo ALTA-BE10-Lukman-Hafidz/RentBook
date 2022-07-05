@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"rentbook/config"
 	"rentbook/entity"
 	"rentbook/views"
@@ -13,21 +15,50 @@ import (
 // 	str = scanner.Text()
 // }
 
-func PostBook() {
-
-}
-
 func UpdateBook() {
 
 }
 
-func DeleteBook() {
+func DeleteBook(AksesBooks entity.AksesBooks) bool {
+	var ID_Book int
 
+	fmt.Print("Masukkan ID Buku yang akan dihapus: ")
+	fmt.Scanln(&ID_Book)
+
+	if AksesBooks.HapusBuku(ID_Book) {
+		fmt.Println("Buku berhasil dihapus")
+		return true
+	} else {
+		fmt.Println("Gagal menghapus buku")
+		return false
+	}
+
+}
+
+func PostBook(AksesBooks entity.AksesBooks, scanner *bufio.Scanner) {
+	var newBook entity.Books
+
+	fmt.Print("Masukan ID_Owner: ")
+	fmt.Scanln(&newBook.ID_Owner)
+
+	fmt.Print("Masukan Judul Buku: ")
+	scanner.Scan()
+	newBook.Title_Book = scanner.Text()
+
+	fmt.Print("Masukan Status Buku: ")
+	fmt.Scanln(&newBook.Status)
+
+	res := AksesBooks.TambahBuku(newBook)
+	if res.ID_Book == 0 {
+		fmt.Println("Error, tidak dapat memposting buku")
+	}
+	fmt.Println("Berhasil Post Buku")
 }
 
 func main() {
 	conn := config.InitDB(config.ReadEnv())
 	var input, Login, ID_User int
+	scanner := bufio.NewScanner(os.Stdin)
 
 	AksesUsers := entity.AksesUsers{DB: conn}
 	AksesBooks := entity.AksesBooks{DB: conn}
@@ -64,26 +95,27 @@ func main() {
 				}
 
 			} else if Login == 1 {
-				PostBook()
+				PostBook(AksesBooks, scanner)
 			}
 
 		case 3:
 			if Login == 0 {
 				views.Register(AksesUsers)
 			} else if Login == 1 {
-				UpdateBook()
+				// update
 			}
 
 		case 4:
 			if Login == 0 {
 				fmt.Println("Silahkan Login terlebih dulu")
 			} else if Login == 1 {
-				DeleteBook()
+				// Delete Books
+				DeleteBook(AksesBooks)
 			}
 
 		case 5:
 			if Login == 1 {
-				DeleteBook()
+				// views.
 			}
 
 		case 99:
