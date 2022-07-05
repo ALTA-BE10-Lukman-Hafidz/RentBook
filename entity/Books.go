@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -51,6 +52,18 @@ func (ab *AksesBooks) TambahBuku(newBook Books) Books {
 		log.Fatal(err)
 		return Books{}
 	}
+	return newBook
+}
+
+func (ab *AksesBooks) UpdateBookData(newBook Books, ID_User int) Books {
+	err := ab.DB.Model(&Books{}).Where("ID_Book = ?", newBook.ID_Book).Updates(&newBook)
+
+	if err.Error != nil {
+		log.Println(err)
+		return Books{}
+	}
+
+	fmt.Println("Data buku berhasil diupdate")
 
 	return newBook
 }

@@ -58,6 +58,7 @@ func PostBook(AksesBooks entity.AksesBooks, scanner *bufio.Scanner) {
 func main() {
 	conn := config.InitDB(config.ReadEnv())
 	var input, Login, ID_User int
+	var statusbook bool
 	scanner := bufio.NewScanner(os.Stdin)
 
 	AksesUsers := entity.AksesUsers{DB: conn}
@@ -84,14 +85,15 @@ func main() {
 		switch input {
 		case 1:
 			views.ReadBooks(AksesBooks)
+			fmt.Println(AksesUsers.GetAllData())
 
 		case 2:
 			if Login == 0 {
 				res := views.LoginUser(AksesUsers)
+
 				if res.Status == 1 {
 					Login = 1
 					ID_User = res.ID_User
-
 				}
 
 			} else if Login == 1 {
@@ -102,7 +104,7 @@ func main() {
 			if Login == 0 {
 				views.Register(AksesUsers)
 			} else if Login == 1 {
-				// update
+				views.UpdateBook(AksesBooks, ID_User, statusbook)
 			}
 
 		case 4:
