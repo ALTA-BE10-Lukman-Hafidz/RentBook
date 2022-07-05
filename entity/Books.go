@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -33,11 +34,16 @@ func (ab *AksesBooks) GetAllData() []Books {
 	return daftarBooks
 }
 
-func (ab *AksesBooks) HapusBuku(ID_Books int) bool {
-	postExc := ab.DB.Delete(&Books{}, ID_Books)
+func (ab *AksesBooks) HapusBuku(ID_Book int, ID_User int) bool {
+	postExc := ab.DB.Delete(&Books{}, "ID_Book = ? AND ID_Owner = ?", ID_Book, ID_User)
 
 	if err := postExc.Error; err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return false
+	}
+
+	if postExc.RowsAffected == 0 {
+		fmt.Println("Tidak ada buku dengan id tersebut pada akun anda")
 		return false
 	}
 
@@ -48,9 +54,27 @@ func (ab *AksesBooks) TambahBuku(newBook Books) Books {
 	err := ab.DB.Create(&newBook).Error
 
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 		return Books{}
 	}
+
+	return newBook
+}
+
+func (ab *AksesBooks) UpdateBookData(newBook Books, ID_User int) Books {
+	err := ab.DB.Model(&Books{}).Where("ID_Book = ? AND ID_Owner = ?", newBook.ID_Book, ID_User).Updates(&newBook)
+
+	if err.Error != nil {
+		log.Println(err)
+		return Books{}
+	}
+
+	if err.RowsAffected == 0 {
+		fmt.Println("Tidak ada buku dengan id tersebut pada akun anda")
+		return Books{}
+	}
+
+	fmt.Println("Data buku berhasil diupdate")
 
 	return newBook
 }
