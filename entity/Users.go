@@ -34,6 +34,19 @@ func (au *AksesUsers) GetAllData() []Users {
 	return daftarUsers
 }
 
+func (au *AksesUsers) LoginUsers(No_HP string) Users {
+	var daftarUsers = Users{}
+
+	err := au.DB.Find(&daftarUsers, "No_HP = ?", No_HP)
+
+	if err.Error != nil {
+		log.Println(err)
+		return Users{}
+	}
+
+	return daftarUsers
+}
+
 func (au *AksesUsers) TambahUser(newuser Users) Users {
 	err := au.DB.Create(&newuser).Error
 
@@ -46,15 +59,13 @@ func (au *AksesUsers) TambahUser(newuser Users) Users {
 	return newuser
 }
 
-func (au *AksesUsers) LoginUsers(No_HP string) string {
-	var daftarUsers = Users{}
-
-	err := au.DB.First(&daftarUsers, "No_HP = ?", No_HP)
+func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) Users {
+	err := au.DB.Find(&newprofile, "ID_User = ?", ID_User).Save(newprofile)
 
 	if err.Error != nil {
 		log.Println(err)
-		return "gagal"
+		return Users{}
 	}
 
-	return daftarUsers.Pass
+	return newprofile
 }

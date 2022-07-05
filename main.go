@@ -1,61 +1,34 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
 	"rentbook/config"
 	"rentbook/entity"
+	"rentbook/views"
 )
 
-func ReadBooks(AksesBooks entity.AksesBooks) {
-	fmt.Println("Daftar Buku")
-	for _, val := range AksesBooks.GetAllData() {
-		fmt.Println(val)
-	}
+// func Scan(str string) {
+// 	scanner := bufio.NewScanner(os.Stdin)
+// 	scanner.Scan()
+// 	str = scanner.Text()
+// }
+
+func PostBook() {
+
 }
 
-func LoginUser(AksesUsers entity.AksesUsers) int {
-	var No_HP, Pass string
-	fmt.Print("Masukkan No. HP: ")
-	fmt.Scanln(&No_HP)
+func UpdateBook() {
 
-	fmt.Print("Masukkan Password: ")
-	fmt.Scanln(&Pass)
-
-	if AksesUsers.LoginUsers(No_HP) == Pass {
-		fmt.Println("Login Sukses")
-		return 1
-	} else {
-		fmt.Println("Login Gagal")
-		return 0
-	}
 }
 
-func Register(AksesUsers entity.AksesUsers, scanner *bufio.Scanner) {
-	var newuser entity.Users
+func DeleteBook() {
 
-	fmt.Print("Masukan Nama: ")
-	scanner.Scan()
-	newuser.Name = scanner.Text()
-
-	fmt.Print("Masukan No_HP: ")
-	fmt.Scanln(&newuser.No_HP)
-
-	fmt.Print("Masukan Pass: ")
-	fmt.Scanln(&newuser.Pass)
-
-	fmt.Print("Masukan Email: ")
-	fmt.Scanln(&newuser.Email)
-
-	AksesUsers.TambahUser(newuser)
 }
 
 func main() {
-	conn := config.InitDB()
-	var input, Login int
+	conn := config.InitDB(config.ReadEnv())
+	var input, Login, ID_User int
 
-	scanner := bufio.NewScanner(os.Stdin)
 	AksesUsers := entity.AksesUsers{DB: conn}
 	AksesBooks := entity.AksesBooks{DB: conn}
 	//AksesRents := entity.AksesRents{DB: conn}
@@ -70,36 +43,49 @@ func main() {
 			fmt.Println("2. Post Books")
 			fmt.Println("3. Update Books")
 			fmt.Println("4. Delete Books")
+			fmt.Println("5. Update Profile")
 		}
+
 		fmt.Println("99. Exit")
 		fmt.Print("Masukan input: ")
 		fmt.Scanln(&input)
 
 		switch input {
 		case 1:
-			ReadBooks(AksesBooks)
+			views.ReadBooks(AksesBooks)
 
 		case 2:
-			//Login
 			if Login == 0 {
-				if LoginUser(AksesUsers) == 1 {
+				res := views.LoginUser(AksesUsers)
+				if res.Status == 1 {
 					Login = 1
+					ID_User = res.ID_User
+					fmt.Println(ID_User)
 				}
+
 			} else if Login == 1 {
-				// Post Books
+				PostBook()
 			}
+
 		case 3:
 			if Login == 0 {
-				Register(AksesUsers, scanner)
+				views.Register(AksesUsers)
 			} else if Login == 1 {
-				// Update Books
+				UpdateBook()
 			}
+
 		case 4:
 			if Login == 0 {
-				fmt.Println("Silahkan login terlebih dahulu")
+				fmt.Println("Silahkan Login terlebih dulu")
 			} else if Login == 1 {
-				// Delete Books
+				DeleteBook()
 			}
+
+		case 5:
+			if Login == 1 {
+				DeleteBook()
+			}
+
 		case 99:
 			//Exit
 			fmt.Println("Terima kasih telah menggunakan program kami")
