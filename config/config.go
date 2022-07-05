@@ -8,8 +8,8 @@ import (
 )
 
 func InitDB() *gorm.DB {
-	connstr := "root:@tcp(localhost:3306)/RentBook?charset=utf8mb4&parseTime=True"
-	db, err := gorm.Open(mysql.Open(connstr), &gorm.Config{})
+	conString := "root:diangolang15@tcp(localhost:3306)/RentBook?charset=utf8mb4&parseTime=True"
+	db, err := gorm.Open(mysql.Open(conString), &gorm.Config{})
 	if err != nil {
 		log.Println(err)
 		return nil
