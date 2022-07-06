@@ -78,3 +78,17 @@ func (ab *AksesBooks) UpdateBookData(newBook Books, ID_User int) Books {
 
 	return newBook
 }
+
+func (ab *AksesBooks) GetMyBooks(ID_Owner int) []Books {
+	var daftarBooks = []Books{}
+	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
+	err := ab.DB.Where("ID_Owner = ?", ID_Owner).Find(&daftarBooks)
+
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+
+		return nil
+	}
+
+	return daftarBooks
+}

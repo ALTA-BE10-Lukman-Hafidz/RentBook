@@ -70,3 +70,16 @@ func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) Users {
 
 	return newprofile
 }
+
+func (au *AksesUsers) GetDataUser(ID_User int) Users {
+	var daftarUsers = Users{}
+
+	err := au.DB.Where("ID_User = ?", ID_User).Select(daftarUsers.Name, daftarUsers.Email).Find(&daftarUsers)
+
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+		return Users{}
+	}
+
+	return daftarUsers
+}

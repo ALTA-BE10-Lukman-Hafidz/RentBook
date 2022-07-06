@@ -69,3 +69,14 @@ func UpdateProfile(AksesUsers entity.AksesUsers, ID_User int) {
 
 	AksesUsers.UpdateUser(newprofile, ID_User)
 }
+
+func UserProfile(AksesUsers entity.AksesUsers, ID_User int) {
+
+	fmt.Print("Masukkan ID User: ")
+	fmt.Scanln(&ID_User)
+
+	fmt.Sprintf("Profile User %d", ID_User)
+	for _, val := range AksesUsers.GetDataUser(ID_User) {
+		fmt.Println(val)
+	}
+}
