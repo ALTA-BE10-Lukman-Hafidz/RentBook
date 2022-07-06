@@ -22,7 +22,7 @@ func main() {
 
 	AksesUsers := entity.AksesUsers{DB: conn}
 	AksesBooks := entity.AksesBooks{DB: conn}
-	//AksesRents := entity.AksesRents{DB: conn}
+	// AksesRents := entity.AksesRents{DB: conn}
 
 	for input != 99 {
 		fmt.Println("=====Perpus Online=====")
@@ -35,6 +35,9 @@ func main() {
 			fmt.Println("3. Update Books")
 			fmt.Println("4. Delete Books")
 			fmt.Println("5. Update Profile")
+			fmt.Println("6. Rent Books")
+			fmt.Println("7. Update Rents")
+			fmt.Println("8. Delete Rents")
 		}
 
 		fmt.Println("99. Exit")
@@ -78,7 +81,12 @@ func main() {
 			if Login == 1 {
 				views.UpdateProfile(AksesUsers, ID_User)
 			}
-
+		case 6:
+			//rent update
+		case 7:
+			//update rent
+		case 8:
+			//delete rent
 		case 99:
 			//Exit
 			fmt.Println("Terima kasih telah menggunakan program kami")
