@@ -35,7 +35,8 @@ func (ar *AksesRents) GetAllData() []Rents {
 	return daftarRents
 }
 
-func (ar *AksesRents) TambahRentData(newRent Rents) Rents {
+func (ar *AksesRents) TambahRentData(newRent Rents, Status_Book bool) Rents {
+
 	err := ar.DB.Create(&newRent).Error
 
 	if err != nil {
@@ -43,12 +44,44 @@ func (ar *AksesRents) TambahRentData(newRent Rents) Rents {
 
 		return Rents{}
 	}
-	fmt.Println("Berhasil Data berhasil masuk")
+
+	status := ar.DB.Exec("update books b join rents r on r.ID_Rentbook = b.ID_Book and r.ID_Rentbook = ? and r.ID_Renter = ? set b.Status = ?",
+		newRent.ID_Rentbook, newRent.ID_Renter, Status_Book)
+
+	if status.Error != nil {
+		log.Println(status)
+
+		return Rents{}
+	}
+
+	if status.RowsAffected == 0 {
+		fmt.Println("Buku tidak tersedia")
+
+		return Rents{}
+	}
+
+	fmt.Println("Buku berhasil dipinjam")
 	return newRent
 }
 
 //select * from book where id_owner == id_user
-func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents) Rents {
+func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents, Status_Book bool) Rents {
+
+	status := ar.DB.Exec("update books b join rents r on r.ID_Rentbook = b.ID_Book and r.ID_Rentbook = ? and r.ID_Renter = ? set b.Status = ?",
+		newReturn.ID_Rentbook, ID_User, Status_Book)
+
+	if status.Error != nil {
+		log.Println(status)
+
+		return Rents{}
+	}
+
+	if status.RowsAffected == 0 {
+		fmt.Println("Buku sudah dikembalikan")
+
+		return Rents{}
+	}
+
 	err := ar.DB.Model(&Rents{}).Where("ID_Rentbook = ? AND ID_Renter = ?", newReturn.ID_Rentbook, ID_User).Update("Status_Rent", newReturn.Status_Rent)
 
 	if err.Error != nil {
@@ -57,7 +90,7 @@ func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents) Rents {
 	}
 
 	if err.RowsAffected == 0 {
-		fmt.Println("Tidak ada buku yang dikembalikan")
+		fmt.Println("Tidak ada buku pinjaman pada akun")
 		return Rents{}
 	}
 

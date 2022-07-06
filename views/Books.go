@@ -39,11 +39,7 @@ func PostBook(AksesBooks entity.AksesBooks, scanner *bufio.Scanner, ID_User int)
 
 	newBook.Status = true
 
-	res := AksesBooks.TambahBuku(newBook)
-
-	if res.ID_Book == 0 {
-		fmt.Println("Error, tidak dapat memposting buku")
-	}
+	AksesBooks.TambahBuku(newBook)
 
 	fmt.Println("Berhasil Post Buku")
 }

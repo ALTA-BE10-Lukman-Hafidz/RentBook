@@ -82,7 +82,7 @@ func main() {
 			}
 
 		case 6:
-			views.RentBook(AksesRents, ID_User)
+			views.RentBook(AksesRents, AksesBooks, ID_User)
 
 		case 7:
 			//return book
