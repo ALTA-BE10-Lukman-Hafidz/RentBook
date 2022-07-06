@@ -37,6 +37,8 @@ func main() {
 			fmt.Println("5. Update Profile")
 			fmt.Println("6. Rent Books")
 			fmt.Println("7. Return Books")
+			fmt.Println("8. My Books")
+			fmt.Println("9. Get User Profile")
 		}
 
 		fmt.Println("99. Exit")
@@ -87,6 +89,15 @@ func main() {
 		case 7:
 			//return book
 			views.ReturnBook(AksesRents, ID_User)
+
+		case 8:
+			//My book
+			views.MyBooks(AksesBooks, ID_User)
+
+		case 9:
+			//Get user profile
+			views.UserProfile(AksesUsers)
+
 		case 99:
 			//Exit
 			fmt.Println("Terima kasih telah menggunakan program kami")

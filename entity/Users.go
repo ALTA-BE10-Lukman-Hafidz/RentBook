@@ -70,3 +70,19 @@ func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) Users {
 
 	return newprofile
 }
+
+func (au *AksesUsers) GetDataUser(ID_User int) Users {
+	var daftarUsers = Users{}
+
+	err := au.DB.Select("ID_User", "Name", "Email").Find(&daftarUsers).Where("ID_User = ?", ID_User)
+
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+		return Users{}
+	}
+	if err.RowsAffected == 0 {
+		log.Println("User tidak ditemukan")
+	}
+
+	return daftarUsers
+}
