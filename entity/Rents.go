@@ -15,9 +15,6 @@ type Rents struct {
 	Rented_at   time.Time `gorm:"autoCreateTime"`
 	Return_at   time.Time
 	Status_Rent bool
-
-	// Users     []Users `gorm:"many2many:User_Rents;"`
-	// Books     []Books `gorm:"many2many:User_Books;"`
 }
 
 type AksesRents struct {
@@ -51,3 +48,20 @@ func (ar *AksesRents) TambahRentData(newRent Rents) Rents {
 }
 
 //select * from book where id_owner == id_user
+func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents, ID_Rentbook int) Rents {
+	err := ar.DB.Model(&Rents{}).Where("ID_Rentbook = ? AND ID_User = ?", ID_Rentbook, ID_User).Updates(&newReturn)
+
+	if err.Error != nil {
+		log.Println(err)
+		return Rents{}
+	}
+
+	if err.RowsAffected == 0 {
+		fmt.Println("Tidak ada buku yang dikembalikan")
+		return Rents{}
+	}
+
+	fmt.Println("Return buku berhasil")
+
+	return newReturn
+}
