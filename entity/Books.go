@@ -9,8 +9,8 @@ import (
 )
 
 type Books struct {
-	ID_Book    int `gorm:"primaryKey;"`
-	ID_Owner   int `gorm:"foreignKey:ID_User"`
+	ID_Book    int
+	ID_Owner   int
 	Title_Book string
 	Status     bool
 	Posted_at  time.Time `gorm:"autoCreateTime"`

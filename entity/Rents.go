@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"log"
 	"time"
 
@@ -8,11 +9,13 @@ import (
 )
 
 type Rents struct {
-	ID_Rent   int `gorm:"primaryKey;"`
-	ID_Renter int `gorm:"foreignKey:ID_User"`
-	ID_Book   int
-	Rented_at time.Time `gorm:"autoCreateTime"`
-	Return_at time.Time
+	ID_Rent     int
+	ID_Renter   int
+	ID_Rentbook int
+	Rented_at   time.Time `gorm:"autoCreateTime"`
+	Return_at   time.Time
+	Status_Rent bool
+
 	// Users     []Users `gorm:"many2many:User_Rents;"`
 	// Books     []Books `gorm:"many2many:User_Books;"`
 }
@@ -34,3 +37,17 @@ func (ar *AksesRents) GetAllData() []Rents {
 
 	return daftarRents
 }
+
+func (ar *AksesRents) TambahRentData(newRent Rents) Rents {
+	err := ar.DB.Create(&newRent).Error
+
+	if err != nil {
+		log.Println(err)
+
+		return Rents{}
+	}
+	fmt.Println("Berhasil Data berhasil masuk")
+	return newRent
+}
+
+//select * from book where id_owner == id_user
