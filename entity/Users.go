@@ -13,7 +13,6 @@ type Users struct {
 	No_HP   string
 	Pass    string
 	Email   string
-	Books   []Books `gorm:"foreignKey:ID_Book"`
 }
 
 type AksesUsers struct {

@@ -2,6 +2,7 @@ package entity
 
 import (
 	"log"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -9,9 +10,11 @@ import (
 type Rents struct {
 	ID_Rent   int `gorm:"primaryKey;"`
 	ID_Renter int `gorm:"foreignKey:ID_User"`
-	Rented_at string
-	Return_at string
-	Books     []Books `gorm:"foreignKey:ID_Book"`
+	ID_Book   int
+	Rented_at time.Time `gorm:"autoCreateTime"`
+	Return_at time.Time
+	// Users     []Users `gorm:"many2many:User_Rents;"`
+	// Books     []Books `gorm:"many2many:User_Books;"`
 }
 
 type AksesRents struct {
