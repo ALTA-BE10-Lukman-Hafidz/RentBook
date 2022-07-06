@@ -96,7 +96,7 @@ func main() {
 
 		case 9:
 			//Get user profile
-			views.UserProfile(AksesUsers, ID_User)
+			views.UserProfile(AksesUsers)
 
 		case 99:
 			//Exit
