@@ -24,3 +24,19 @@ func RentBook(AksesRents entity.AksesRents, ID_User int) {
 		AksesRents.TambahRentData(newRent)
 	}
 }
+
+func ReturnBook(AksesRents entity.AksesRents, ID_User int) {
+	var newReturn entity.Rents
+	var total int
+
+	fmt.Print("Masukkan jumlah buku yang ingin dikembalikkan : ")
+	fmt.Scanln(&total)
+	for i := 0; i < total; i++ {
+		fmt.Print("Masukkan Id buku : ")
+		fmt.Scanln(&newReturn.ID_Rentbook)
+		newReturn.Status_Rent = false
+		AksesRents.ReturnBookData(ID_User, newReturn)
+
+	}
+
+}
