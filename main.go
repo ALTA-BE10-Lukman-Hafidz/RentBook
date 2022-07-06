@@ -36,7 +36,7 @@ func main() {
 			fmt.Println("4. Delete Books")
 			fmt.Println("5. Update Profile")
 			fmt.Println("6. Rent Books")
-			fmt.Println("7. Return Rents")
+			fmt.Println("7. Return Books")
 		}
 
 		fmt.Println("99. Exit")

@@ -28,13 +28,14 @@ func RentBook(AksesRents entity.AksesRents, ID_User int) {
 func ReturnBook(AksesRents entity.AksesRents, ID_User int) {
 	var newReturn entity.Rents
 	var total int
-	var ID_Rentbook int
 
+	fmt.Print("Masukkan jumlah buku yang ingin dikembalikkan : ")
+	fmt.Scanln(&total)
 	for i := 0; i < total; i++ {
 		fmt.Print("Masukkan Id buku : ")
-		fmt.Scanln(&ID_Rentbook)
+		fmt.Scanln(&newReturn.ID_Rentbook)
 		newReturn.Status_Rent = false
-		AksesRents.ReturnBookData(ID_User, newReturn, ID_Rentbook)
+		AksesRents.ReturnBookData(ID_User, newReturn)
 
 	}
 

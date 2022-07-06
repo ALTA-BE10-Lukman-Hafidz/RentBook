@@ -48,8 +48,8 @@ func (ar *AksesRents) TambahRentData(newRent Rents) Rents {
 }
 
 //select * from book where id_owner == id_user
-func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents, ID_Rentbook int) Rents {
-	err := ar.DB.Model(&Rents{}).Where("ID_Rentbook = ? AND ID_User = ?", ID_Rentbook, ID_User).Updates(&newReturn)
+func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents) Rents {
+	err := ar.DB.Model(&Rents{}).Where("ID_Rentbook = ? AND ID_Renter = ?", newReturn.ID_Rentbook, ID_User).Update("Status_Rent", newReturn.Status_Rent)
 
 	if err.Error != nil {
 		log.Println(err)
