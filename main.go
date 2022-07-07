@@ -9,6 +9,12 @@ import (
 	"rentbook/views"
 )
 
+// func Scan(str string) {
+// 	scanner := bufio.NewScanner(os.Stdin)
+// 	scanner.Scan()
+// 	str = scanner.Text()
+// }
+
 func main() {
 	conn := config.InitDB(config.ReadEnv())
 	var input, Login, ID_User int
@@ -33,12 +39,9 @@ func main() {
 			fmt.Println("7. Return Books")
 			fmt.Println("8. My Books")
 			fmt.Println("9. Get User Profile")
-<<<<<<< HEAD
 			fmt.Println("10. Delete Account")
 			fmt.Println("11. My Rent Book")
-=======
 			fmt.Println("12. Available Books")
->>>>>>> c6c3172 (tambah fitur Available books)
 		}
 
 		fmt.Println("99. Exit")
@@ -98,7 +101,6 @@ func main() {
 			//Get user profile
 			views.UserProfile(AksesUsers)
 
-<<<<<<< HEAD
 		case 10:
 			//Hapus Akun
 			//views.DeleteAccount(AksesUsers, ID_User)
@@ -107,10 +109,8 @@ func main() {
 			//My Rent Book
 			views.MyRentBooks(AksesRents, ID_User)
 
-=======
 		case 12:
 			views.AvailableBooks(AksesBooks)
->>>>>>> c6c3172 (tambah fitur Available books)
 		case 99:
 			//Exit
 			fmt.Println("Terima kasih telah menggunakan program kami")
