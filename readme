@@ -1,0 +1,65 @@
+
+`RENT BOOK PROJECT`
+
+
+Project ini menggunakan bahasa pemrograman `golang`.
+
+Database yang digunakan adalah `MySQL` dengan ORM GORM, dibuat dengan menggabungkan query GORM dan Sql.
+
+
+Beberapa fitur RENT BOOK, diantaranya :
+
+1. Read Books
+Menampilkan semua daftar bacaan buku untuk dibaca oleh user.
+
+2. Login
+Melakukan login akun untuk mengakses fitur lebih lengkap.
+
+3. Register
+Melakukan registrasi akun apabila user belum memiliki akun.
+
+4. Post Books
+User dapat membagikan buku miliknya agar dapat dibaca semua orang.
+
+5. Update Books
+User dapat memperbarui data bukunya.
+
+6. Delete Books
+User dapat menghapus buku miliknya.
+
+7. Update Profile
+User dapat memperbarui informasi pribadi.
+
+8. Rent Books
+User dapat meminjam buku dari user lain.
+
+9. Return Books
+User mengembalikan buku sesuai ketentuan yang berlaku.
+
+10. My Books
+Menampilkan daftar buku user yang telah dibagikan.
+
+11. Search Profile
+User dapat menjelajah profile milik orang lain.
+
+12. Deactive Account
+User menghapus akun.
+
+13. My Rent Book
+Menampilkan daftar buku yang telah dipinjam oleh user.
+
+14. Available Books
+Menampilkan buku yang dapat dipinjam.
+
+15. My Profile
+Menampilkan data akun pribadi.
+
+14. Exit
+User keluar dari program.
+
+.
+.
+.
+.
+
+# HAPPY READING !
