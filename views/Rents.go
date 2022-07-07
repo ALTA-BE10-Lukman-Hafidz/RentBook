@@ -22,7 +22,13 @@ func RentBook(AksesRents entity.AksesRents, AksesBooks entity.AksesBooks, ID_Use
 	for i := 0; i < total; i++ {
 		fmt.Println("Masukan Id buku : ")
 		fmt.Scanln(&newRent.ID_Rentbook)
-		AksesRents.TambahRentData(newRent, Status_Book)
+
+		status := AksesRents.TambahRentData(newRent, Status_Book)
+		if status {
+			fmt.Println("Buku berhasil dipinjam")
+		} else {
+			fmt.Println("Buku tidak dapat dipinjam")
+		}
 	}
 }
 
@@ -38,7 +44,13 @@ func ReturnBook(AksesRents entity.AksesRents, ID_User int) {
 		fmt.Print("Masukkan Id buku : ")
 		fmt.Scanln(&newReturn.ID_Rentbook)
 		newReturn.Status_Rent = false
-		AksesRents.ReturnBookData(ID_User, newReturn, Status_Book)
+
+		status := AksesRents.ReturnBookData(ID_User, newReturn, Status_Book)
+		if status {
+			fmt.Println("Return buku berhasil")
+		} else {
+			fmt.Println("Return buku gagal")
+		}
 	}
 }
 

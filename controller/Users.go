@@ -11,7 +11,9 @@ type DataUserLogin struct {
 
 func GetLoginData(AksesUsers entity.AksesUsers, No_HP string) DataUserLogin {
 	var DataUserLogin = DataUserLogin{}
+
 	DataUserLogin.ID_User = AksesUsers.LoginUsers(No_HP).ID_User
 	DataUserLogin.Status = 1
+
 	return DataUserLogin
 }

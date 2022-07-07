@@ -23,26 +23,23 @@ type AksesRents struct {
 
 func (ar *AksesRents) GetAllData() []Rents {
 	var daftarRents = []Rents{}
-	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
+
 	err := ar.DB.Find(&daftarRents)
 
 	if err.Error != nil {
 		log.Fatal(err.Statement.SQL.String())
-
 		return nil
 	}
 
 	return daftarRents
 }
 
-func (ar *AksesRents) TambahRentData(newRent Rents, Status_Book bool) Rents {
-
+func (ar *AksesRents) TambahRentData(newRent Rents, Status_Book bool) bool {
 	err := ar.DB.Create(&newRent).Error
 
 	if err != nil {
 		log.Println(err)
-
-		return Rents{}
+		return false
 	}
 
 	status := ar.DB.Exec("update books b join rents r on r.ID_Rentbook = b.ID_Book and r.ID_Rentbook = ? and r.ID_Renter = ? set b.Status = ?",
@@ -50,53 +47,45 @@ func (ar *AksesRents) TambahRentData(newRent Rents, Status_Book bool) Rents {
 
 	if status.Error != nil {
 		log.Println(status)
-
-		return Rents{}
+		return false
 	}
 
 	if status.RowsAffected == 0 {
 		fmt.Println("Buku tidak tersedia")
-
-		return Rents{}
+		return false
 	}
 
-	fmt.Println("Buku berhasil dipinjam")
-	return newRent
+	return true
 }
 
-//select * from book where id_owner == id_user
-func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents, Status_Book bool) Rents {
-
+func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents, Status_Book bool) bool {
 	status := ar.DB.Exec("update books b join rents r on r.ID_Rentbook = b.ID_Book and r.ID_Rentbook = ? and r.ID_Renter = ? set b.Status = ?",
 		newReturn.ID_Rentbook, ID_User, Status_Book)
 
 	if status.Error != nil {
 		log.Println(status)
-
-		return Rents{}
+		return false
 	}
 
 	if status.RowsAffected == 0 {
 		fmt.Println("Buku sudah dikembalikan")
-
-		return Rents{}
+		return false
 	}
 
-	err := ar.DB.Model(&Rents{}).Where("ID_Rentbook = ? AND ID_Renter = ?", newReturn.ID_Rentbook, ID_User).Update("Status_Rent", newReturn.Status_Rent)
+	err := ar.DB.Model(&Rents{}).Where("ID_Rentbook = ? AND ID_Renter = ?",
+		newReturn.ID_Rentbook, ID_User).Update("Status_Rent", newReturn.Status_Rent)
 
 	if err.Error != nil {
 		log.Println(err)
-		return Rents{}
+		return false
 	}
 
 	if err.RowsAffected == 0 {
 		fmt.Println("Tidak ada buku pinjaman pada akun")
-		return Rents{}
+		return false
 	}
 
-	fmt.Println("Return buku berhasil")
-
-	return newReturn
+	return true
 }
 
 func (ar *AksesRents) MyRentData(ID_Renter int) []Rents {

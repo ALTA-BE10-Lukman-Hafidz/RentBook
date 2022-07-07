@@ -10,6 +10,7 @@ import (
 
 func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
 	var No_HP, Pass string
+	DataUserLogin := controller.GetLoginData(AksesUsers, No_HP)
 
 	fmt.Print("Masukkan No. HP: ")
 	fmt.Scanln(&No_HP)
@@ -19,8 +20,8 @@ func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
 
 	if AksesUsers.LoginUsers(No_HP).Pass == Pass {
 		fmt.Println("Login Sukses")
-		DataUserLogin := controller.GetLoginData(AksesUsers, No_HP)
 		return DataUserLogin
+
 	} else {
 		fmt.Println("Login Gagal")
 		return controller.DataUserLogin{}
@@ -44,14 +45,17 @@ func Register(AksesUsers entity.AksesUsers) {
 	fmt.Print("Masukan Email: ")
 	fmt.Scanln(&newuser.Email)
 
-	// fmt.Println(newuser.Name)
-	AksesUsers.TambahUser(newuser)
+	status := AksesUsers.TambahUser(newuser)
+	if status {
+		fmt.Println("Berhasil register akun")
+	} else {
+		fmt.Println("gagal register akun")
+	}
 }
 
 func UpdateProfile(AksesUsers entity.AksesUsers, ID_User int) {
 	var newprofile entity.Users
 	scanner := bufio.NewScanner(os.Stdin)
-
 	newprofile.ID_User = ID_User
 
 	fmt.Print("Masukan Nama: ")
@@ -67,16 +71,21 @@ func UpdateProfile(AksesUsers entity.AksesUsers, ID_User int) {
 	fmt.Print("Masukan Email: ")
 	fmt.Scanln(&newprofile.Email)
 
-	AksesUsers.UpdateUser(newprofile, ID_User)
+	status := AksesUsers.UpdateUser(newprofile, ID_User)
+	if status {
+		fmt.Println("Data Telah Diupdate")
+	} else {
+		fmt.Println("Data Gagal Diupdate")
+	}
 }
 
 func UserProfile(AksesUsers entity.AksesUsers) {
 	var ID_User int
+
 	fmt.Print("Masukkan ID User yang ingin dilihat: ")
 	fmt.Scanln(&ID_User)
 
 	fmt.Println(AksesUsers.GetDataUser(ID_User))
-
 }
 
 func DeleteAccount(AksesRents entity.AksesRents, ID_User int) {

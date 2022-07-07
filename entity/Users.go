@@ -1,7 +1,6 @@
 package entity
 
 import (
-	"fmt"
 	"log"
 
 	"gorm.io/gorm"
@@ -46,29 +45,26 @@ func (au *AksesUsers) LoginUsers(No_HP string) Users {
 	return daftarUsers
 }
 
-func (au *AksesUsers) TambahUser(newuser Users) Users {
+func (au *AksesUsers) TambahUser(newuser Users) bool {
 	err := au.DB.Create(&newuser).Error
 
 	if err != nil {
 		log.Println(err)
-
-		return Users{}
+		return false
 	}
-	fmt.Println("Berhasil register akun")
-	return newuser
+
+	return true
 }
 
-func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) Users {
+func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) bool {
 	err := au.DB.Model(&Users{}).Where("ID_User = ?", ID_User).Updates(&newprofile)
 
 	if err.Error != nil {
 		log.Println(err)
-		return Users{}
+		return false
 	}
 
-	fmt.Println("Data Telah Diupdate")
-
-	return newprofile
+	return true
 }
 
 func (au *AksesUsers) GetDataUser(ID_User int) Users {
