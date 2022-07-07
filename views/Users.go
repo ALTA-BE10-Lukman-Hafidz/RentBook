@@ -111,3 +111,7 @@ func DeactivatedAccount(AksesUsers entity.AksesUsers, ID_User int) {
 		}
 	}
 }
+
+func MyProfile(AksesUsers entity.AksesUsers, ID_User int) {
+	fmt.Println(AksesUsers.GetMyProfileData(ID_User))
+}

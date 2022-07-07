@@ -113,6 +113,9 @@ func main() {
 
 		case 12:
 			views.AvailableBooks(AksesBooks)
+
+		case 13:
+			views.MyProfile(AksesUsers, ID_User)
 		case 99:
 			//Exit
 			fmt.Println("Terima kasih telah menggunakan program kami")

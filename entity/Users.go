@@ -96,3 +96,20 @@ func (au *AksesUsers) DeactivatedAccountData(UserData Users, ID_User int) bool {
 
 	return true
 }
+
+func (au *AksesUsers) GetMyProfileData(ID_User int) Users {
+	var daftarUsers = Users{}
+
+	err := au.DB.Find(&daftarUsers, "ID_User = ?", ID_User)
+
+	if err.Error != nil {
+		log.Println(err)
+		return Users{}
+	}
+	if err.RowsAffected == 0 {
+		log.Println("User tidak ditemukan")
+		return Users{}
+	}
+
+	return daftarUsers
+}
