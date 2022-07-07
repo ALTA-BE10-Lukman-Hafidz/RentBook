@@ -10,7 +10,6 @@ import (
 
 func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
 	var No_HP, Pass string
-	DataUserLogin := controller.GetLoginData(AksesUsers, No_HP)
 
 	fmt.Print("Masukkan No. HP: ")
 	fmt.Scanln(&No_HP)
@@ -20,6 +19,7 @@ func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
 
 	if AksesUsers.LoginUsers(No_HP).Pass == Pass {
 		fmt.Println("Login Sukses")
+		DataUserLogin := controller.GetLoginData(AksesUsers, No_HP)
 		return DataUserLogin
 
 	} else {

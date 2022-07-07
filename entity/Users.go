@@ -24,7 +24,7 @@ func (au *AksesUsers) GetAllData() []Users {
 	err := au.DB.Find(&daftarUsers)
 
 	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
+		log.Println(err.Statement.SQL.String())
 		return nil
 
 	}
@@ -46,9 +46,9 @@ func (au *AksesUsers) LoginUsers(No_HP string) Users {
 }
 
 func (au *AksesUsers) TambahUser(newuser Users) bool {
-	err := au.DB.Create(&newuser).Error
+	err := au.DB.Create(&newuser)
 
-	if err != nil {
+	if err.Error != nil {
 		log.Println(err)
 		return false
 	}

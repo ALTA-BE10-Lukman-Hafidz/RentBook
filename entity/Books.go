@@ -89,13 +89,18 @@ func (ab *AksesBooks) UpdateBookData(newBook Books, ID_User int) bool {
 	return true
 }
 
-func (ab *AksesBooks) GetMyBooks(ID_Owner int) []Books {
+func (ab *AksesBooks) GetMyBooks(ID_User int) []Books {
 	var daftarBooks = []Books{}
 
-	err := ab.DB.Where("ID_Owner = ?", ID_Owner).Find(&daftarBooks)
+	err := ab.DB.Find(&daftarBooks, "ID_Owner = ?", ID_User)
 
 	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
+		log.Println(err.Statement.SQL.String())
+		return nil
+	}
+
+	if err.RowsAffected == 0 {
+		log.Println("Tidak ada buku pada akun anda")
 		return nil
 	}
 

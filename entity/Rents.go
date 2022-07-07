@@ -27,7 +27,7 @@ func (ar *AksesRents) GetAllData() []Rents {
 	err := ar.DB.Find(&daftarRents)
 
 	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
+		log.Println(err.Statement.SQL.String())
 		return nil
 	}
 
@@ -35,9 +35,9 @@ func (ar *AksesRents) GetAllData() []Rents {
 }
 
 func (ar *AksesRents) TambahRentData(newRent Rents, Status_Book bool) bool {
-	err := ar.DB.Create(&newRent).Error
+	err := ar.DB.Create(&newRent)
 
-	if err != nil {
+	if err.Error != nil {
 		log.Println(err)
 		return false
 	}

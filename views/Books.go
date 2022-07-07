@@ -73,9 +73,9 @@ func DeleteBook(AksesBooks entity.AksesBooks, ID_User int) {
 	}
 }
 
-func MyBooks(AksesBooks entity.AksesBooks, ID_Owner int) {
+func MyBooks(AksesBooks entity.AksesBooks, ID_User int) {
 	fmt.Println("Daftar Buku Saya")
-	for _, val := range AksesBooks.GetMyBooks(ID_Owner) {
+	for _, val := range AksesBooks.GetMyBooks(ID_User) {
 		fmt.Println(val)
 	}
 }
