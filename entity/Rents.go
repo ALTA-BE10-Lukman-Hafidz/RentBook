@@ -98,3 +98,17 @@ func (ar *AksesRents) ReturnBookData(ID_User int, newReturn Rents, Status_Book b
 
 	return newReturn
 }
+
+func (ar *AksesRents) MyRentData(ID_Renter int) []Rents {
+	var daftarRent = []Rents{}
+	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
+	err := ar.DB.Where("ID_Renter = ? AND Status_Rent = True", ID_Renter).Find(&daftarRent)
+
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+
+		return nil
+	}
+
+	return daftarRent
+}

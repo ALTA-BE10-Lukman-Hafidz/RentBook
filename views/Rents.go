@@ -41,3 +41,10 @@ func ReturnBook(AksesRents entity.AksesRents, ID_User int) {
 		AksesRents.ReturnBookData(ID_User, newReturn, Status_Book)
 	}
 }
+
+func MyRentBooks(AksesRents entity.AksesRents, ID_Renter int) {
+	fmt.Println("Buku Pinjaman Saya")
+	for _, val := range AksesRents.MyRentData(ID_Renter) {
+		fmt.Println(val)
+	}
+}
