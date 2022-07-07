@@ -106,16 +106,3 @@ func (ab *AksesBooks) GetMyBooks(ID_User int) []Books {
 
 	return daftarBooks
 }
-
-func (ab *AksesBooks) DeleteOwner(ID_Owner int) bool {
-
-	err := ab.DB.Model(&Books{}).Where("ID_Owner = ?", true).Update("ID_Owner", false)
-
-	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
-
-		return true
-	}
-
-	return false
-}

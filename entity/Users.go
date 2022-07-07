@@ -7,11 +7,12 @@ import (
 )
 
 type Users struct {
-	ID_User int
-	Name    string
-	No_HP   string
-	Pass    string
-	Email   string
+	ID_User    int
+	Name       string
+	No_HP      string
+	Pass       string
+	Email      string
+	Deleted_at string
 }
 
 type AksesUsers struct {
@@ -21,7 +22,7 @@ type AksesUsers struct {
 func (au *AksesUsers) GetAllData() []Users {
 	var daftarUsers = []Users{}
 	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
-	err := au.DB.Find(&daftarUsers)
+	err := au.DB.Find(&daftarUsers, "Deleted_at = 0")
 
 	if err.Error != nil {
 		log.Println(err.Statement.SQL.String())
@@ -70,7 +71,7 @@ func (au *AksesUsers) UpdateUser(newprofile Users, ID_User int) bool {
 func (au *AksesUsers) GetDataUser(ID_User int) Users {
 	var daftarUsers = Users{}
 
-	err := au.DB.Select("ID_User", "Name", "Email").Find(&daftarUsers, "ID_User = ?", ID_User)
+	err := au.DB.Select("ID_User", "Name", "Email").Find(&daftarUsers, "ID_User = ? AND Deleted_at = 0", ID_User)
 
 	if err.Error != nil {
 		log.Println(err)
@@ -84,12 +85,11 @@ func (au *AksesUsers) GetDataUser(ID_User int) Users {
 	return daftarUsers
 }
 
-func (au *AksesUsers) HapusAkun(ID_User int) bool {
+func (au *AksesUsers) DeactivatedAccountData(UserData Users, ID_User int) bool {
 
-	postExc := au.DB.Delete(&Users{}, "ID_User = ?", ID_User)
-	//	postExc := au.DB.Raw(&Users{}, "ID_User = ?", ID_User)
+	err := au.DB.Model(&Users{}).Where("ID_User = ?", ID_User).Updates(&UserData)
 
-	if err := postExc.Error; err != nil {
+	if err.Error != nil {
 		log.Println(err)
 		return false
 	}

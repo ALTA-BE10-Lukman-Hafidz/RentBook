@@ -6,6 +6,7 @@ import (
 	"os"
 	"rentbook/controller"
 	"rentbook/entity"
+	"time"
 )
 
 func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
@@ -44,6 +45,8 @@ func Register(AksesUsers entity.AksesUsers) {
 
 	fmt.Print("Masukan Email: ")
 	fmt.Scanln(&newuser.Email)
+
+	newuser.Deleted_at = "0"
 
 	status := AksesUsers.TambahUser(newuser)
 	if status {
@@ -88,11 +91,23 @@ func UserProfile(AksesUsers entity.AksesUsers) {
 	fmt.Println(AksesUsers.GetDataUser(ID_User))
 }
 
-func DeleteAccount(AksesRents entity.AksesRents, ID_User int) {
+func DeactivatedAccount(AksesUsers entity.AksesUsers, ID_User int) {
+	var input string
+	var UserData entity.Users
 
-	// if AksesRents.MyRentData(ID_User) != 0 {
-	// 	fmt.Println("Anda belum mengembalikan buku")
-	// } else if AksesBooks.DeleteOwner(ID_Owner) = 0 {
+	UserData.Deleted_at = time.Now().String()
+	UserData.No_HP = " "
+	UserData.Pass = " "
 
-	// }
+	fmt.Println("Apakah anda yakin menghapus akun anda ?")
+	fmt.Scanln(&input)
+
+	if input == "ya" {
+		status := AksesUsers.DeactivatedAccountData(UserData, ID_User)
+		if status {
+			fmt.Println("Akun berhasil dihapus")
+		} else {
+			fmt.Println("Akun gagal dihapus")
+		}
+	}
 }
