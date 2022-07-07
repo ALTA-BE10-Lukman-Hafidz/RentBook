@@ -14,6 +14,13 @@ func ReadBooks(AksesBooks entity.AksesBooks) {
 	}
 }
 
+func AvailableBooks(AksesBooks entity.AksesBooks) {
+	fmt.Println("Daftar buku yang dapat dipinjam")
+	for _, val := range AksesBooks.GetAvailableBooks() {
+		fmt.Println(val)
+	}
+}
+
 func UpdateBook(AksesBooks entity.AksesBooks, ID_User int) {
 	var newBook entity.Books
 	scanner := bufio.NewScanner(os.Stdin)

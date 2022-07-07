@@ -22,8 +22,22 @@ type AksesBooks struct {
 
 func (ab *AksesBooks) GetAllData() []Books {
 	var daftarBooks = []Books{}
-	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
+
 	err := ab.DB.Find(&daftarBooks)
+
+	if err.Error != nil {
+		log.Fatal(err.Statement.SQL.String())
+
+		return nil
+	}
+
+	return daftarBooks
+}
+
+func (ab *AksesBooks) GetAvailableBooks() []Books {
+	var daftarBooks = []Books{}
+
+	err := ab.DB.Find(&daftarBooks, "Status = true")
 
 	if err.Error != nil {
 		log.Fatal(err.Statement.SQL.String())
