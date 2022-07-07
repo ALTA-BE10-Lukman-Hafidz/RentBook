@@ -14,6 +14,13 @@ func ReadBooks(AksesBooks entity.AksesBooks) {
 	}
 }
 
+func AvailableBooks(AksesBooks entity.AksesBooks) {
+	fmt.Println("Daftar buku yang dapat dipinjam")
+	for _, val := range AksesBooks.GetAvailableBooks() {
+		fmt.Println(val)
+	}
+}
+
 func UpdateBook(AksesBooks entity.AksesBooks, ID_User int) {
 	var newBook entity.Books
 	scanner := bufio.NewScanner(os.Stdin)
@@ -25,7 +32,11 @@ func UpdateBook(AksesBooks entity.AksesBooks, ID_User int) {
 	scanner.Scan()
 	newBook.Title_Book = scanner.Text()
 
-	AksesBooks.UpdateBookData(newBook, ID_User)
+	status := AksesBooks.UpdateBookData(newBook, ID_User)
+
+	if status {
+		fmt.Println("Data buku berhasil diupdate")
+	}
 }
 
 func PostBook(AksesBooks entity.AksesBooks, scanner *bufio.Scanner, ID_User int) {
@@ -39,31 +50,32 @@ func PostBook(AksesBooks entity.AksesBooks, scanner *bufio.Scanner, ID_User int)
 
 	newBook.Status = true
 
-	AksesBooks.TambahBuku(newBook)
+	status := AksesBooks.TambahBuku(newBook)
 
-	fmt.Println("Berhasil Post Buku")
+	if status {
+		fmt.Println("Berhasil Post Buku")
+	} else {
+		fmt.Println("Gagal Post Buku")
+	}
 }
 
-func DeleteBook(AksesBooks entity.AksesBooks, ID_User int) bool {
+func DeleteBook(AksesBooks entity.AksesBooks, ID_User int) {
 	var ID_Book int
 
 	fmt.Print("Masukkan ID Buku yang akan dihapus: ")
 	fmt.Scanln(&ID_Book)
 
-	if AksesBooks.HapusBuku(ID_Book, ID_User) {
+	status := AksesBooks.HapusBuku(ID_Book, ID_User)
+	if status {
 		fmt.Println("Buku berhasil dihapus")
-		return true
 	} else {
 		fmt.Println("Gagal menghapus buku")
-		return false
 	}
-
 }
 
-func MyBooks(AksesBooks entity.AksesBooks, ID_Owner int) {
-
+func MyBooks(AksesBooks entity.AksesBooks, ID_User int) {
 	fmt.Println("Daftar Buku Saya")
-	for _, val := range AksesBooks.GetMyBooks(ID_Owner) {
+	for _, val := range AksesBooks.GetMyBooks(ID_User) {
 		fmt.Println(val)
 	}
 }

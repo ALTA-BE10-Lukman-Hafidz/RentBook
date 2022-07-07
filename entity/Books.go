@@ -22,12 +22,24 @@ type AksesBooks struct {
 
 func (ab *AksesBooks) GetAllData() []Books {
 	var daftarBooks = []Books{}
-	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
+
 	err := ab.DB.Find(&daftarBooks)
 
 	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
+		log.Println(err.Statement.SQL.String())
+		return nil
+	}
 
+	return daftarBooks
+}
+
+func (ab *AksesBooks) GetAvailableBooks() []Books {
+	var daftarBooks = []Books{}
+
+	err := ab.DB.Find(&daftarBooks, "Status = true")
+
+	if err.Error != nil {
+		log.Println(err.Statement.SQL.String())
 		return nil
 	}
 
@@ -50,58 +62,47 @@ func (ab *AksesBooks) HapusBuku(ID_Book int, ID_User int) bool {
 	return true
 }
 
-func (ab *AksesBooks) TambahBuku(newBook Books) Books {
+func (ab *AksesBooks) TambahBuku(newBook Books) bool {
 	err := ab.DB.Create(&newBook).Error
 
 	if err != nil {
 		log.Println(err)
-		return Books{}
+		return false
 	}
 
-	return newBook
+	return true
 }
 
-func (ab *AksesBooks) UpdateBookData(newBook Books, ID_User int) Books {
+func (ab *AksesBooks) UpdateBookData(newBook Books, ID_User int) bool {
 	err := ab.DB.Model(&Books{}).Where("ID_Book = ? AND ID_Owner = ?", newBook.ID_Book, ID_User).Updates(&newBook)
 
 	if err.Error != nil {
 		log.Println(err)
-		return Books{}
+		return false
 	}
 
 	if err.RowsAffected == 0 {
 		fmt.Println("Tidak ada buku dengan id tersebut pada akun anda")
-		return Books{}
+		return false
 	}
 
-	fmt.Println("Data buku berhasil diupdate")
-
-	return newBook
+	return true
 }
 
-func (ab *AksesBooks) GetMyBooks(ID_Owner int) []Books {
+func (ab *AksesBooks) GetMyBooks(ID_User int) []Books {
 	var daftarBooks = []Books{}
-	// err := au.DB.Raw("Select * from Users").Scan(&daftarUsers)
-	err := ab.DB.Where("ID_Owner = ?", ID_Owner).Find(&daftarBooks)
+
+	err := ab.DB.Find(&daftarBooks, "ID_Owner = ?", ID_User)
 
 	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
+		log.Println(err.Statement.SQL.String())
+		return nil
+	}
 
+	if err.RowsAffected == 0 {
+		log.Println("Tidak ada buku pada akun anda")
 		return nil
 	}
 
 	return daftarBooks
-}
-
-func (ab *AksesBooks) DeleteOwner(ID_Owner int) bool {
-
-	err := ab.DB.Model(&Books{}).Where("ID_Owner = ?", true).Update("ID_Owner", false)
-
-	if err.Error != nil {
-		log.Fatal(err.Statement.SQL.String())
-
-		return true
-	}
-
-	return false
 }

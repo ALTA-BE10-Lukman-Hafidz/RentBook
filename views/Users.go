@@ -6,6 +6,7 @@ import (
 	"os"
 	"rentbook/controller"
 	"rentbook/entity"
+	"time"
 )
 
 func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
@@ -21,6 +22,7 @@ func LoginUser(AksesUsers entity.AksesUsers) controller.DataUserLogin {
 		fmt.Println("Login Sukses")
 		DataUserLogin := controller.GetLoginData(AksesUsers, No_HP)
 		return DataUserLogin
+
 	} else {
 		fmt.Println("Login Gagal")
 		return controller.DataUserLogin{}
@@ -44,14 +46,19 @@ func Register(AksesUsers entity.AksesUsers) {
 	fmt.Print("Masukan Email: ")
 	fmt.Scanln(&newuser.Email)
 
-	// fmt.Println(newuser.Name)
-	AksesUsers.TambahUser(newuser)
+	newuser.Deleted_at = "0"
+
+	status := AksesUsers.TambahUser(newuser)
+	if status {
+		fmt.Println("Berhasil register akun")
+	} else {
+		fmt.Println("gagal register akun")
+	}
 }
 
 func UpdateProfile(AksesUsers entity.AksesUsers, ID_User int) {
 	var newprofile entity.Users
 	scanner := bufio.NewScanner(os.Stdin)
-
 	newprofile.ID_User = ID_User
 
 	fmt.Print("Masukan Nama: ")
@@ -67,23 +74,44 @@ func UpdateProfile(AksesUsers entity.AksesUsers, ID_User int) {
 	fmt.Print("Masukan Email: ")
 	fmt.Scanln(&newprofile.Email)
 
-	AksesUsers.UpdateUser(newprofile, ID_User)
+	status := AksesUsers.UpdateUser(newprofile, ID_User)
+	if status {
+		fmt.Println("Data Telah Diupdate")
+	} else {
+		fmt.Println("Data Gagal Diupdate")
+	}
 }
 
 func UserProfile(AksesUsers entity.AksesUsers) {
 	var ID_User int
+
 	fmt.Print("Masukkan ID User yang ingin dilihat: ")
 	fmt.Scanln(&ID_User)
 
 	fmt.Println(AksesUsers.GetDataUser(ID_User))
-
 }
 
-func DeleteAccount(AksesRents entity.AksesRents, ID_User int) {
+func DeactivatedAccount(AksesUsers entity.AksesUsers, ID_User int) {
+	var input string
+	var UserData entity.Users
 
-	// if AksesRents.MyRentData(ID_User) != 0 {
-	// 	fmt.Println("Anda belum mengembalikan buku")
-	// } else if AksesBooks.DeleteOwner(ID_Owner) = 0 {
+	UserData.Deleted_at = time.Now().String()
+	UserData.No_HP = " "
+	UserData.Pass = " "
 
-	// }
+	fmt.Println("Apakah anda yakin menghapus akun anda ?")
+	fmt.Scanln(&input)
+
+	if input == "ya" {
+		status := AksesUsers.DeactivatedAccountData(UserData, ID_User)
+		if status {
+			fmt.Println("Akun berhasil dihapus")
+		} else {
+			fmt.Println("Akun gagal dihapus")
+		}
+	}
+}
+
+func MyProfile(AksesUsers entity.AksesUsers, ID_User int) {
+	fmt.Println(AksesUsers.GetMyProfileData(ID_User))
 }
