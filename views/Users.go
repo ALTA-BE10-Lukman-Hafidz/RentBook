@@ -78,3 +78,12 @@ func UserProfile(AksesUsers entity.AksesUsers) {
 	fmt.Println(AksesUsers.GetDataUser(ID_User))
 
 }
+
+func DeleteAccount(AksesRents entity.AksesRents, ID_User int) {
+
+	// if AksesRents.MyRentData(ID_User) != 0 {
+	// 	fmt.Println("Anda belum mengembalikan buku")
+	// } else if AksesBooks.DeleteOwner(ID_Owner) = 0 {
+
+	// }
+}

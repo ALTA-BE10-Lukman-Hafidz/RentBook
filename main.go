@@ -39,6 +39,8 @@ func main() {
 			fmt.Println("7. Return Books")
 			fmt.Println("8. My Books")
 			fmt.Println("9. Get User Profile")
+			fmt.Println("10. Delete Account")
+			fmt.Println("11. My Rent Book")
 		}
 
 		fmt.Println("99. Exit")
@@ -97,6 +99,14 @@ func main() {
 		case 9:
 			//Get user profile
 			views.UserProfile(AksesUsers)
+
+		case 10:
+			//Hapus Akun
+			//views.DeleteAccount(AksesUsers, ID_User)
+
+		case 11:
+			//My Rent Book
+			views.MyRentBooks(AksesRents, ID_User)
 
 		case 99:
 			//Exit

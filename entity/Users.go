@@ -87,3 +87,16 @@ func (au *AksesUsers) GetDataUser(ID_User int) Users {
 
 	return daftarUsers
 }
+
+func (au *AksesUsers) HapusAkun(ID_User int) bool {
+
+	postExc := au.DB.Delete(&Users{}, "ID_User = ?", ID_User)
+	//	postExc := au.DB.Raw(&Users{}, "ID_User = ?", ID_User)
+
+	if err := postExc.Error; err != nil {
+		log.Println(err)
+		return false
+	}
+
+	return true
+}
