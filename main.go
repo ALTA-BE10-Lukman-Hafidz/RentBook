@@ -83,39 +83,74 @@ func main() {
 			}
 
 		case 5:
-			if Login == 1 {
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
 				views.UpdateProfile(AksesUsers, ID_User)
 			}
 
 		case 6:
-			views.RentBook(AksesRents, AksesBooks, ID_User)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.RentBook(AksesRents, AksesBooks, ID_User)
+			}
 
 		case 7:
 			//return book
-			views.ReturnBook(AksesRents, ID_User)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.ReturnBook(AksesRents, ID_User)
+			}
 
 		case 8:
 			//My book
-			views.MyBooks(AksesBooks, ID_User)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.MyBooks(AksesBooks, ID_User)
+			}
 
 		case 9:
 			//Get user profile
-			views.UserProfile(AksesUsers)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.UserProfile(AksesUsers)
+			}
 
 		case 10:
 			//Hapus Akun
-			views.DeactivatedAccount(AksesUsers, ID_User)
-			Login = 0
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.DeactivatedAccount(AksesUsers, ID_User)
+				Login = 0
+			}
 
 		case 11:
 			//My Rent Book
-			views.MyRentBooks(AksesRents, ID_User)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.MyRentBooks(AksesRents, ID_User)
+			}
 
 		case 12:
-			views.AvailableBooks(AksesBooks)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.AvailableBooks(AksesBooks)
+			}
 
 		case 13:
-			views.MyProfile(AksesUsers, ID_User)
+			if Login == 0 {
+				fmt.Println("Silahkan Login terlebih dulu")
+			} else if Login == 1 {
+				views.MyProfile(AksesUsers, ID_User)
+			}
+
 		case 99:
 			//Exit
 			fmt.Println("Terima kasih telah menggunakan program kami")
