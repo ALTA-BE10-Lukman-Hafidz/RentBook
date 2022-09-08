@@ -11,7 +11,6 @@ Database yang digunakan adalah `MySQL` dengan ORM GORM.
 - [ERD](#-erd)
 - [Features](#-Features)
 - [Demo](#-demo)
-- [Packages](#-packages)
 - [Installation](#%EF%B8%8F-installation)
 - [Contributors](#-contributors)
 
@@ -72,22 +71,22 @@ Rent Book dibuat untuk membantu pengguna melakukan peminjaman buku
 ## 🛠️ Technologies
 
 - [Golang](https://go.dev)
-- [Draw.io](/readme/erd.png)
+- [Draw.io](/readme/erd.PNG)
 - [GORM](https://gorm.io/)
 
 ## 📱 ERD
 
 <p align="center">
-<img src="readme/erd.png" alt="erd">
+<img src="readme/erd.PNG" alt="erd">
 </p>
 
 ## 🌐 Demo
 
 <p align="center">
-<img src="readme/demo1.png" alt="demo1">
-<img src="readme/demo3.png" alt="demo1">
-<img src="readme/demo2.png" alt="demo2">
-<img src="readme/demo4.png" alt="demo4">
+<img src="readme/demo1.PNG" alt="demo1">
+<img src="readme/demo3.PNG" alt="demo1">
+<img src="readme/demo2.PNG" alt="demo2">
+<img src="readme/demo4.PNG" alt="demo4">
 </p>
 
 ## ⚙️ Installation
