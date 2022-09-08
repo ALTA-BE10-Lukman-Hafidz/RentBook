@@ -100,7 +100,7 @@ Rent Book dibuat untuk membantu pengguna melakukan peminjaman buku
 - Run project
 
 ```bash
-  cd PetAdopter-Backend
+  cd RentBook
 
   go get
 
