@@ -9,12 +9,6 @@ import (
 	"rentbook/views"
 )
 
-// func Scan(str string) {
-// 	scanner := bufio.NewScanner(os.Stdin)
-// 	scanner.Scan()
-// 	str = scanner.Text()
-// }
-
 func main() {
 	conn := config.InitDB(config.ReadEnv())
 	var input, Login, ID_User int
